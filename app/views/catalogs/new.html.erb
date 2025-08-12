@@ -1,0 +1,41 @@
+<h1>New Catalog</h1>
+
+<%= form_with(model: @catalog, local: true) do |form| %>
+  <% if @catalog.errors.any? %>
+    <div style="background:#fdd; padding:1rem; border-radius:4px;">
+      <h2><%= pluralize(@catalog.errors.count, "error") %> prohibited this catalog from being saved:</h2>
+      <ul>
+        <% @catalog.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :year %><br>
+    <%= form.number_field :year %>
+  </div>
+
+  <div>
+    <%= form.label :season %><br>
+    <%= form.text_field :season %>
+  </div>
+
+  <div>
+    <%#= form.label :brands, "Brands (comma separated)" %><br>
+    <%#= form.text_field :brands, value: @catalog.brands&.join(",") %>
+<!--    <small>Example: Nike, Adidas, Puma</small>-->
+  </div>
+
+  <div>
+    <%= form.submit "Save Catalog" %>
+  </div>
+<% end %>
+
+<p><%= link_to "← Back to Catalogs", catalogs_path %></p>

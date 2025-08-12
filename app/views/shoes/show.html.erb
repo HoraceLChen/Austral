@@ -1,0 +1,47 @@
+<!-- app/views/shoes/show.html.erb -->
+<p>
+  <%# If the shoe came from a page, you can provide a breadcrumb back. %>
+  <% if (page = @shoe.pages.first) %>
+    <%= link_to "← Back to #{page.catalog.title}, Page #{page.page_number}", page_path(page) %>
+  <% else %>
+    <%= link_to "← Back to Catalogs", catalogs_path %>
+  <% end %>
+</p>
+
+<h1><%= @shoe.name %></h1>
+
+<dl>
+  <dt>Description</dt>
+  <dd><%= simple_format(@shoe.description.presence || "—") %></dd>
+
+  <dt>Price</dt>
+  <dd><%= aud_cents_to_currency(@shoe.price) %></dd>
+
+  <dt>Colours</dt>
+  <dd><%= @shoe.colors.present? ? listify(@shoe.colors) : "—" %></dd>
+
+  <dt>Upper</dt>
+  <dd><%= @shoe.upper.present? ? listify(@shoe.upper) : "—" %></dd>
+
+  <dt>Insole</dt>
+  <dd><%= @shoe.insole.present? ? listify(@shoe.insole) : "—" %></dd>
+
+  <dt>Lining</dt>
+  <dd><%= @shoe.lining.present? ? listify(@shoe.lining) : "—" %></dd>
+
+  <dt>Other</dt>
+  <dd><%= simple_format(@shoe.other.presence || "—") %></dd>
+</dl>
+
+<h2>Appears in</h2>
+<% if @shoe.pages.any? %>
+  <ul>
+    <% @shoe.pages.includes(:catalog).order("catalogs.title ASC, pages.page_number ASC").each do |p| %>
+      <li>
+        <%= link_to "#{p.catalog.title} — Page #{p.page_number}", page_path(p) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Not attached to any pages.</p>
+<% end %>

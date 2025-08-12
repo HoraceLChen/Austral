@@ -1,0 +1,29 @@
+<!-- app/views/pages/show.html.erb -->
+<p>
+  <%= link_to "← Back to #{@catalog.title}", catalog_path(@catalog) %>
+</p>
+
+<h1>
+  <%= @catalog.title %> — Page <%= @page.page_number %>
+</h1>
+
+<h2>Shoes on this page</h2>
+
+<% if @shoes.any? %>
+  <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+    <% @shoes.each do |shoe| %>
+      <div style="border:1px solid #eee; border-radius:8px; padding:1rem;">
+        <h3 style="margin-top:0;"><%= link_to shoe.name, shoe_path(shoe) %></h3>
+        <p><strong>Price:</strong> <%= aud_cents_to_currency(shoe.price) %></p>
+        <% if shoe.colors.present? %>
+          <p><strong>Colours:</strong> <%= listify(shoe.colors) %></p>
+        <% end %>
+        <% if shoe.upper.present? %>
+          <p><strong>Upper:</strong> <%= listify(shoe.upper) %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No shoes attached to this page yet.</p>
+<% end %>

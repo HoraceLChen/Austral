@@ -1,0 +1,23 @@
+<!-- app/views/catalogs/show.html.erb -->
+<p><%= link_to "← Back to Catalogs", catalogs_path %></p>
+
+<h1><%= @catalog.title %></h1>
+<p>
+  <strong>Year:</strong> <%= @catalog.year %><br>
+  <strong>Season:</strong> <%= @catalog.season %>
+</p>
+
+<h2>Pages</h2>
+<% if @pages.any? %>
+  <ul>
+    <% @pages.each do |page| %>
+      <li>
+        <%= link_to "Page #{page.page_number}", page_path(page) %>
+        <%# Optional: show a quick shoe count %>
+        (<%= pluralize(page.shoes.size, "shoe") %>)
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>This catalogue has no pages yet.</p>
+<% end %>
